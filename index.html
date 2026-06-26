@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RESET 60</title>
+<meta name="description" content="RESET 60 je interaktivna 60-sekundna audio-vizuelna pauza za fokus, smirenje i mentalni reset.">
+<link rel="icon" href="assets/reset60_mark.png">
+<style>
+:root{
+  --page:#f7f8f4;
+  --surface:#ffffff;
+  --ink:#0b2442;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --navy:#061a33;
+  --navy2:#0a2a4c;
+  --sage:#8aa676;
+  --sage2:#dfead6;
+  --teal:#5aa0a2;
+  --sand:#eee8dd;
+  --orange:#e8aa88;
+  --shadow:0 26px 80px rgba(15,23,42,.14);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 8% -10%,rgba(138,166,118,.18),transparent 32%),
+    radial-gradient(circle at 94% 4%,rgba(90,160,162,.12),transparent 28%),
+    linear-gradient(180deg,#fff,var(--page));
+}
+body[data-theme="ocean"]{--themeA:#2d7180;--themeB:#bddedc;--themeC:#f7fbfb}
+body[data-theme="forest"]{--themeA:#345f43;--themeB:#b4cfab;--themeC:#f5faf3}
+body[data-theme="mountains"]{--themeA:#435f69;--themeB:#c6d8d2;--themeC:#f6faf8}
+body[data-theme="sky"]{--themeA:#6ca8cc;--themeB:#d8edf8;--themeC:#fbfdff}
+body[data-theme="minimal"]{--themeA:#8aa676;--themeB:#eee8dd;--themeC:#fffdf8}
+body:not([data-theme]){--themeA:#8aa676;--themeB:#dfead6;--themeC:#fffdf8}
+.wrap{width:min(1200px,calc(100% - 42px));margin:auto}
+.nav{
+  position:sticky;top:0;z-index:30;
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(226,232,240,.78);
+}
+.nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.logo img{height:44px;width:auto;display:block}
+.nav-links{display:flex;align-items:center;gap:18px}
+.nav-links a{color:#475569;text-decoration:none;font-weight:750;font-size:14px}
+.nav-links a:hover{color:var(--ink)}
+.hero{padding:56px 0 30px}
+.hero-grid{display:grid;grid-template-columns:1.03fr .97fr;gap:36px;align-items:center}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 13px;border-radius:999px;background:#eef4ea;border:1px solid #d7e4cf;
+  color:#31513d;font-weight:850;font-size:14px;margin-bottom:18px;
+}
+.badge:before{content:"";width:9px;height:9px;border-radius:50%;background:var(--sage)}
+h1{font-size:clamp(50px,7vw,88px);line-height:.92;letter-spacing:-.06em;margin:0 0 18px;color:var(--navy)}
+.lead{font-size:21px;line-height:1.56;color:#506070;max-width:710px;margin:0 0 24px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 0}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:50px;padding:14px 18px;border-radius:16px;border:0;text-decoration:none;font-weight:900;cursor:pointer;
+  transition:.18s ease;font-size:15px;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:var(--navy);color:white}
+.btn.light{background:white;color:var(--navy);border:1px solid var(--line);box-shadow:0 12px 28px rgba(15,23,42,.07)}
+.hero-card{
+  background:linear-gradient(145deg,var(--themeC),#fff);
+  border:1px solid var(--line);
+  border-radius:34px;
+  padding:24px;
+  box-shadow:var(--shadow);
+}
+.hero-preview{
+  min-height:440px;border-radius:28px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, var(--themeA) 45%, transparent), transparent 30%),
+    radial-gradient(circle at 75% 22%, color-mix(in srgb, var(--themeB) 70%, transparent), transparent 32%),
+    linear-gradient(145deg,var(--navy),#0d3154);
+}
+.hero-preview .preview-logo{
+  position:absolute;left:28px;top:24px;background:rgba(255,255,255,.92);border-radius:20px;padding:10px 14px;
+}
+.preview-logo img{height:42px;display:block}
+.preview-orb{
+  position:absolute;inset:0;display:grid;place-items:center;
+}
+.preview-orb:before{
+  content:"";width:245px;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 35% 28%,#fff 0 24%,#dfead6 25% 49%,var(--themeA) 50% 100%);
+  box-shadow:0 0 65px rgba(138,166,118,.52),0 0 120px rgba(90,160,162,.20);
+}
+.preview-waves{position:absolute;left:-10%;right:-10%;bottom:11%;height:160px}
+.preview-waves span{
+  position:absolute;left:0;width:120%;height:60px;border-radius:50%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+  animation:wave 8s ease-in-out infinite;
+}
+.preview-waves span:nth-child(2){top:45px;opacity:.62;animation-delay:-2s}
+.preview-waves span:nth-child(3){top:88px;opacity:.42;animation-delay:-4s}
+@keyframes wave{0%,100%{transform:translateX(-3%) scaleY(.9)}50%{transform:translateX(3%) scaleY(1.12)}}
+.app-section{padding:34px 0 24px}
+.app{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:38px;
+  padding:24px;
+  box-shadow:var(--shadow);
+}
+.app-top{
+  display:grid;
+  grid-template-columns:1fr 330px;
+  gap:18px;
+  margin-bottom:22px;
+}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.mode,.pattern-card{
+  background:#fbfdff;border:1px solid var(--line);border-radius:24px;padding:16px;
+}
+.mode{cursor:pointer;border-width:2px;border-color:#dfead6;transition:.18s ease}
+.mode:hover{transform:translateY(-2px);background:white}
+.mode.active{border-color:var(--themeA);box-shadow:0 16px 38px rgba(15,23,42,.10);background:white}
+.mode h3{margin:0 0 7px;font-size:18px;color:var(--navy)}
+.mode p{margin:0;color:var(--muted);line-height:1.45;font-size:14px}
+.pattern-card strong{display:block;margin-bottom:12px}
+.patterns{display:flex;gap:8px;flex-wrap:wrap}
+.pattern{
+  border:1px solid #dce7d6;background:white;color:#314d3d;border-radius:999px;padding:9px 12px;font-weight:850;cursor:pointer
+}
+.pattern.active{background:var(--themeA);color:white;border-color:var(--themeA)}
+.stage{
+  min-height:700px;border-radius:34px;overflow:hidden;position:relative;display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 22% 17%, color-mix(in srgb,var(--themeA) 56%, transparent), transparent 30%),
+    radial-gradient(circle at 78% 26%, color-mix(in srgb,var(--themeB) 70%, transparent), transparent 31%),
+    radial-gradient(circle at 50% 100%, rgba(232,170,136,.18), transparent 36%),
+    linear-gradient(145deg,var(--navy),var(--navy2));
+}
+.stage-bg:before,.stage-bg:after{
+  content:"";position:absolute;border-radius:50%;filter:blur(56px);opacity:.78;animation:float 14s ease-in-out infinite
+}
+.stage-bg:before{width:440px;height:440px;left:7%;top:9%;background:color-mix(in srgb,var(--themeA) 55%, transparent)}
+.stage-bg:after{width:500px;height:500px;right:7%;bottom:7%;background:color-mix(in srgb,var(--themeB) 45%, transparent);animation-delay:-6s}
+@keyframes float{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(34px,-18px,0) scale(1.08)}}
+.stage:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,255,255,.10),transparent 38%),linear-gradient(180deg,rgba(6,26,51,.05),rgba(6,26,51,.70));z-index:1}
+.center-ui{
+  position:relative;z-index:3;width:min(680px,calc(100% - 34px));border-radius:42px;padding:34px;color:white;text-align:center;
+  background:rgba(6,16,33,.52);border:1px solid rgba(255,255,255,.20);box-shadow:0 30px 90px rgba(0,0,0,.40);backdrop-filter:blur(15px)
+}
+.breath-orb{
+  width:min(348px,74vw);aspect-ratio:1;margin:0 auto 22px;border-radius:50%;display:grid;place-items:center;position:relative;
+  transform:scale(var(--orbScale,.72));transition:transform var(--phaseDuration,4s) cubic-bezier(.28,.01,.22,1)
+}
+.breath-orb:before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 35% 28%,#fff 0 24%,#eff6eb 25% 44%,var(--themeB) 45% 62%,var(--themeA) 63% 100%);
+  box-shadow:0 0 46px color-mix(in srgb,var(--themeB) 72%, transparent),0 0 118px color-mix(in srgb,var(--themeA) 35%, transparent)
+}
+.breath-orb:after{content:"";position:absolute;inset:-16px;border-radius:50%;border:2px solid rgba(255,255,255,.30)}
+.orb-core{
+  position:relative;z-index:1;width:72%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.95);color:var(--navy);
+  display:grid;place-items:center;text-align:center;padding:18px
+}
+.phase{font-size:38px;font-weight:950;line-height:1;letter-spacing:-.04em;margin-bottom:8px}
+.phase-time{font-size:64px;font-weight:950;letter-spacing:-.06em;line-height:1}
+.meta{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 11px;color:#eaf0ff;font-size:14px}
+.copy{margin:0 auto 18px;max-width:470px;color:#eef4ff;line-height:1.55;font-size:16px}
+.action-row{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:16px}
+button{border:0;border-radius:16px;padding:14px 19px;font-size:15px;font-weight:850;cursor:pointer;transition:.18s ease}
+button:hover{transform:translateY(-1px)}
+button.primary{background:var(--themeA);color:white}
+button.secondary{background:rgba(255,255,255,.92);color:var(--navy)}
+button.soft{background:rgba(255,244,238,.94);color:#8d4525}
+.sound-row{display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:center;max-width:440px;margin:0 auto;color:#e9eefc;font-size:14px}
+.sound-row input{width:100%}
+.progress-row{margin:16px auto 0;max-width:440px;height:8px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden}
+.progress-fill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--themeB),#fff);transition:width .2s linear}
+.status{margin-top:12px;color:#d7e1f3;font-size:14px}
+.section-title{margin:0 0 12px;font-size:36px;letter-spacing:-.04em;color:var(--navy)}
+.section-lead{margin:0 0 22px;color:var(--muted);font-size:17px;line-height:1.55;max-width:760px}
+.gallery-section{padding:48px 0 20px}
+.theme-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.theme-card{background:white;border:1px solid var(--line);border-radius:24px;padding:10px;cursor:pointer;transition:.18s ease;text-align:left}
+.theme-card:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(15,23,42,.10)}
+.theme-card.active{outline:3px solid color-mix(in srgb,var(--themeA) 60%, transparent)}
+.theme-card img{width:100%;aspect-ratio:1.25/1;object-fit:cover;border-radius:18px;display:block}
+.theme-card strong{display:block;margin:10px 6px 2px;color:var(--navy)}
+.theme-card span{display:block;margin:0 6px 6px;color:var(--muted);font-size:13px;line-height:1.35}
+.benefits{padding:40px 0 60px}
+.benefit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.benefit{background:white;border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:0 15px 45px rgba(15,23,42,.06)}
+.icon{width:42px;height:42px;border-radius:16px;display:grid;place-items:center;background:#eef4ea;color:#31513d;font-weight:950;margin-bottom:13px}
+.benefit h3{margin:0 0 8px;color:var(--navy)}
+.benefit p{margin:0;color:var(--muted);line-height:1.55}
+.footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--muted)}
+.footer-inner{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}
+.footer img{height:34px;width:auto}
+@media(max-width:1050px){
+  .hero-grid,.app-top{grid-template-columns:1fr}
+  .theme-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:780px){
+  .nav-links{display:none}
+  .modes,.benefit-grid{grid-template-columns:1fr}
+  .theme-grid{grid-template-columns:repeat(2,1fr)}
+  .stage{min-height:700px}
+}
+@media(max-width:560px){
+  .wrap{width:calc(100% - 22px)}
+  .hero{padding-top:28px}
+  .app{padding:15px;border-radius:28px}
+  .center-ui{padding:22px;border-radius:28px}
+  .stage{min-height:690px;border-radius:26px}
+  .phase{font-size:31px}.phase-time{font-size:52px}
+  .sound-row{grid-template-columns:1fr;text-align:left}
+  .theme-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body data-theme="ocean">
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top"><img src="assets/reset60_logo.png" alt="RESET 60 logo"></a>
+    <div class="nav-links">
+      <a href="#app">Aplikacija</a>
+      <a href="#teme">Teme</a>
+      <a href="#benefiti">Benefiti</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="badge">Interaktivna 60-sekundna pauza</div>
+      <h1>Vrati fokus u jednom minutu.</h1>
+      <p class="lead">RESET 60 vodi korisnika kroz udah, zadržavanje i izdah uz pažljivo odabran zvuk, smirujuću animaciju i vizuelnu temu koju korisnik bira sam.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#app">Pokreni demo</a>
+        <a class="btn light" href="#teme">Izaberi temu</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-preview">
+        <div class="preview-logo"><img src="assets/reset60_logo.png" alt="RESET 60"></div>
+        <div class="preview-orb"></div>
+        <div class="preview-waves"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="app-section" id="app">
+  <div class="wrap app">
+    <div class="app-top">
+      <div class="modes">
+        <div class="mode active" data-mode="fokus"><h3>Fokus</h3><p>Čistiji zvuk i ritam za početak rada.</p></div>
+        <div class="mode" data-mode="smiri"><h3>Smiri se</h3><p>Mekši ambijent nalik talasima i tišini.</p></div>
+        <div class="mode" data-mode="reset"><h3>Reset</h3><p>Pulsirajući zvuk za novu koncentraciju.</p></div>
+      </div>
+      <div class="pattern-card">
+        <strong>Ritam disanja</strong>
+        <div class="patterns">
+          <button class="pattern active" data-pattern="box">Box 4-4-4-4</button>
+          <button class="pattern" data-pattern="relax">4-7-8</button>
+          <button class="pattern" data-pattern="simple">5-5-5</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-bg" aria-hidden="true"></div>
+      <div class="preview-waves" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="center-ui">
+        <div class="breath-orb" id="breathOrb">
+          <div class="orb-core">
+            <div>
+              <div class="phase" id="phaseLabel">Spremi se</div>
+              <div class="phase-time" id="phaseTime">60</div>
+            </div>
+          </div>
+        </div>
+        <div class="meta">
+          <span id="modeLabel">Mod: Fokus</span>
+          <span id="patternLabel">Ritam: Box 4-4-4-4</span>
+          <span id="lapsLabel">Ciklus: 0</span>
+        </div>
+        <p class="copy" id="stageCopy">Klikni pokreni i prati širenje kruga za udah, pauzu za zadržavanje i smanjenje kruga za izdah.</p>
+        <div class="action-row">
+          <button class="primary" id="startBtn">Pokreni</button>
+          <button class="secondary" id="pauseBtn">Pauziraj</button>
+          <button class="soft" id="resetBtn">Resetuj</button>
+        </div>
+        <div class="sound-row">
+          <span>Zvuk</span>
+          <input id="volume" type="range" min="0" max="100" value="78">
+        </div>
+        <div class="progress-row"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="status" id="sessionStatus">Izaberi mod, ritam i temu.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-section" id="teme">
+  <div class="wrap">
+    <h2 class="section-title">Galerija tema</h2>
+    <p class="section-lead">Svaka tema menja atmosferu aplikacije. Ideja je da korisnik izabere vizuelni ambijent koji mu najviše prija u datom trenutku.</p>
+    <div class="theme-grid">
+      <button class="theme-card active" data-theme="ocean"><img src="assets/theme_ocean.png" alt="Ocean tema"><strong>Ocean</strong><span>hladniji tonovi i talasi</span></button>
+      <button class="theme-card" data-theme="forest"><img src="assets/theme_forest.png" alt="Forest tema"><strong>Forest</strong><span>meke zelene nijanse</span></button>
+      <button class="theme-card" data-theme="mountains"><img src="assets/theme_mountains.png" alt="Mountain tema"><strong>Mountains</strong><span>mir i dubina prostora</span></button>
+      <button class="theme-card" data-theme="sky"><img src="assets/theme_sky.png" alt="Sky tema"><strong>Sky</strong><span>svetao i otvoren osećaj</span></button>
+      <button class="theme-card" data-theme="minimal"><img src="assets/theme_minimal.png" alt="Minimal tema"><strong>Minimal</strong><span>čista bež estetika</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="benefits" id="benefiti">
+  <div class="wrap">
+    <h2 class="section-title">Zašto RESET 60?</h2>
+    <p class="section-lead">Projekat je namerno sveden na kratko, jasno i prijatno iskustvo koje ne dodaje novu distrakciju.</p>
+    <div class="benefit-grid">
+      <div class="benefit"><div class="icon">1</div><h3>Brži ulazak u fokus</h3><p>Korisnik za manje od par sekundi pokreće vođenu pauzu i vraća pažnju na jedan zadatak.</p></div>
+      <div class="benefit"><div class="icon">2</div><h3>Manje napetosti</h3><p>Ritam disanja, smirujući zvuk i kružna animacija stvaraju osećaj kontrole i usporavanja.</p></div>
+      <div class="benefit"><div class="icon">3</div><h3>Kontrolisana pauza</h3><p>Sesija traje 60 sekundi, pa pauza ostaje kratka i korisna, bez nepotrebnog zadržavanja.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <img src="assets/reset60_logo.png" alt="RESET 60">
+    <span>RESET 60 — završni IRMS projekat / Marta Lužaić / 98-23</span>
+  </div>
+</footer>
+
+<audio id="modeAudio" loop preload="auto"><source src="assets/focus_bells.wav" type="audio/wav"></audio>
+
+<script>
+const TOTAL_SECONDS = 60;
+let running=false,timer=null,remainingTotal=TOTAL_SECONDS,phaseIndex=0,phaseRemaining=0,lap=0,mode="fokus",pattern="box";
+const audio=document.getElementById("modeAudio");
+const volume=document.getElementById("volume");
+const orb=document.getElementById("breathOrb");
+const phaseLabel=document.getElementById("phaseLabel");
+const phaseTime=document.getElementById("phaseTime");
+const modeLabel=document.getElementById("modeLabel");
+const patternLabel=document.getElementById("patternLabel");
+const lapsLabel=document.getElementById("lapsLabel");
+const stageCopy=document.getElementById("stageCopy");
+const sessionStatus=document.getElementById("sessionStatus");
+const progressFill=document.getElementById("progressFill");
+
+const modes={
+  fokus:{label:"Fokus",audio:"assets/focus_bells.wav",copy:"Prati čist ritam i koristi prvi minut da uđeš u jedan konkretan zadatak."},
+  smiri:{label:"Smiri se",audio:"assets/smiri_ocean.wav",copy:"Uspori dah, opusti ramena i dozvoli krugu da vodi tempo."},
+  reset:{label:"Reset",audio:"assets/reset_pulse.wav",copy:"Zatvori prethodni zadatak i kreni u sledeći ciklus sa jasnijim ritmom."}
+};
+const patterns={
+  box:{label:"Box 4-4-4-4",phases:[{name:"Udahni",seconds:4,scale:.98},{name:"Zadrži",seconds:4,scale:.98},{name:"Izdahni",seconds:4,scale:.62},{name:"Pauza",seconds:4,scale:.62}]},
+  relax:{label:"4-7-8",phases:[{name:"Udahni",seconds:4,scale:.98},{name:"Zadrži",seconds:7,scale:.98},{name:"Izdahni",seconds:8,scale:.62}]},
+  simple:{label:"5-5-5",phases:[{name:"Udahni",seconds:5,scale:.98},{name:"Zadrži",seconds:5,scale:.98},{name:"Izdahni",seconds:5,scale:.62}]}
+};
+function updateStaticText(){
+  modeLabel.textContent="Mod: "+modes[mode].label;
+  patternLabel.textContent="Ritam: "+patterns[pattern].label;
+  lapsLabel.textContent="Ciklus: "+lap;
+  stageCopy.textContent=modes[mode].copy;
+}
+function setAudioForMode(){
+  audio.pause();
+  audio.innerHTML='<source src="'+modes[mode].audio+'" type="audio/wav">';
+  audio.load();
+  audio.volume=Number(volume.value)/100;
+}
+function setPhase(index){
+  const phases=patterns[pattern].phases;
+  phaseIndex=index%phases.length;
+  const ph=phases[phaseIndex];
+  phaseRemaining=ph.seconds;
+  phaseLabel.textContent=ph.name;
+  phaseTime.textContent=phaseRemaining;
+  orb.style.setProperty("--phaseDuration",ph.seconds+"s");
+  requestAnimationFrame(()=>orb.style.setProperty("--orbScale",ph.scale));
+}
+function resetSession(){
+  clearInterval(timer);timer=null;running=false;remainingTotal=TOTAL_SECONDS;lap=0;
+  phaseLabel.textContent="Spremi se";phaseTime.textContent=TOTAL_SECONDS;progressFill.style.width="0%";
+  orb.style.setProperty("--phaseDuration","1s");orb.style.setProperty("--orbScale",".72");
+  audio.pause();audio.currentTime=0;updateStaticText();sessionStatus.textContent="Sesija je resetovana.";
+}
+function tick(){
+  remainingTotal-=1;phaseRemaining-=1;
+  progressFill.style.width=((TOTAL_SECONDS-remainingTotal)/TOTAL_SECONDS*100)+"%";
+  if(remainingTotal<=0){phaseTime.textContent=0;clearInterval(timer);timer=null;running=false;audio.pause();sessionStatus.textContent="Sesija je završena.";return;}
+  if(phaseRemaining<=0){
+    const phases=patterns[pattern].phases;
+    if(phaseIndex===phases.length-1) lap+=1;
+    setPhase(phaseIndex+1);
+  }else{phaseTime.textContent=phaseRemaining;}
+  updateStaticText();
+}
+async function startSession(){
+  audio.volume=Number(volume.value)/100;
+  try{await audio.play();}catch(e){sessionStatus.textContent="Klikni još jednom na Pokreni da browser dozvoli zvuk.";}
+  if(running)return;
+  running=true;sessionStatus.textContent="Sesija je u toku.";
+  if(phaseLabel.textContent==="Spremi se"||phaseTime.textContent==="60") setPhase(0);
+  timer=setInterval(tick,1000);
+}
+document.getElementById("startBtn").addEventListener("click",startSession);
+document.getElementById("pauseBtn").addEventListener("click",()=>{clearInterval(timer);timer=null;running=false;audio.pause();sessionStatus.textContent="Sesija je pauzirana.";});
+document.getElementById("resetBtn").addEventListener("click",resetSession);
+
+document.querySelectorAll(".mode").forEach(card=>{
+  card.addEventListener("click",()=>{
+    document.querySelectorAll(".mode").forEach(x=>x.classList.remove("active"));
+    card.classList.add("active");mode=card.dataset.mode;
+    const wasRunning=running;setAudioForMode();if(wasRunning) audio.play().catch(()=>{});
+    updateStaticText();sessionStatus.textContent="Aktivan mod: "+modes[mode].label+".";
+  });
+});
+document.querySelectorAll(".pattern").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".pattern").forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active");pattern=btn.dataset.pattern;resetSession();
+    sessionStatus.textContent="Aktivan ritam: "+patterns[pattern].label+".";
+  });
+});
+document.querySelectorAll(".theme-card").forEach(card=>{
+  card.addEventListener("click",()=>{
+    document.querySelectorAll(".theme-card").forEach(x=>x.classList.remove("active"));
+    card.classList.add("active");
+    document.body.dataset.theme=card.dataset.theme;
+    sessionStatus.textContent="Tema promenjena: "+card.querySelector("strong").textContent+".";
+  });
+});
+volume.addEventListener("input",()=>{audio.volume=Number(volume.value)/100;});
+setAudioForMode();updateStaticText();orb.style.setProperty("--orbScale",".72");orb.style.setProperty("--phaseDuration","1s");
+</script>
+</body>
+</html>
